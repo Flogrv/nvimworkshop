@@ -1,3 +1,5 @@
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 -- Insert des espaces a la place de tabulations
 vim.opt.expandtab = true
 
@@ -44,7 +46,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 --
 
 -- Etape 3 ) Installtion de lazy vim avec un theme
---
+-- Etape 4 ) ajout du plugin telescope
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -65,9 +67,23 @@ local plugins = {
         lazy = false,
         priority = 1000,
         opts = {},
-    }
+    }, 
+    {
+
+        'nvim-telescope/telescope.nvim', tag = '0.1.6',
+        -- or                              , branch = '0.1.x',
+        dependencies = { 'nvim-lua/plenary.nvim' }
+
+    },
 
 }
 local opts = {}
 require("lazy").setup(plugins, opts)
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+
 vim.cmd[[colorscheme tokyonight]]
